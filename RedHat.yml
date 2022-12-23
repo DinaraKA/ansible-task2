@@ -1,0 +1,37 @@
+- name: Install RedHat Apache
+  yum:
+    name: httpd
+    state: latest
+
+- name: Start RedHat Apache
+  systemd:
+    state: started
+    enabled: yes
+    name: httpd
+  
+- name: Install Unzip
+  yum:
+    name: unzip
+    state: latest
+
+- name: Install wget
+  yum:
+    name: wget
+    state: latest
+
+- name: Unarchive Template
+  unarchive:
+    src: https://www.free-css.com/assets/files/free-css-templates/download/page1/modular-business.zip
+    dest: /tmp/
+    remote_src: yes
+
+- name: Copy Template to /var/www/html
+  copy:
+    src: /tmp/modular-business/
+    dest: /var/www/html/
+    remote_src: yes
+      
+- name: Restart RedHat Apache
+  service:
+    name: httpd
+    state: restarted
